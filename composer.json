@@ -1,8 +1,8 @@
 {
-  "name": "iAdvize/ApiRestClient",
+  "name": "iadvize/apirestclient",
   "description": "iAdvize API Rest client",
   "minimum-stability": "stable",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "authors": [
     {
       "name": "iAdvize R&D Team",
