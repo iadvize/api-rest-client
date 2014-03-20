@@ -15,7 +15,8 @@ $resource = $client->getLiveResource('operator', 123);
 
 // Display resource
 if ($resource) {
-
+    print('Operator ' . $resource['id'] . ' is ');
+    print($$resource['connected'] ? 'connected' : 'disconnected');
 } else {
     echo $client->getLastResponse()->getMeta()->getMessage();
 }
