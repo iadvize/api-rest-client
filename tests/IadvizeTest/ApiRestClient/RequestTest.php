@@ -59,6 +59,17 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test: Use live mode
+     */
+    public function testUseLiveMode()
+    {
+        $this->request->disableLive();
+        $this->request->enableLive();
+
+        $this->assertTrue($this->request->getLive());
+    }
+
+    /**
      * Test: Display fields
      */
     public function testDisplayFields()
