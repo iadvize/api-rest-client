@@ -323,11 +323,11 @@ class Client
         $browser = $this->getBrowser();
         $headers = ['X-API-Key' => $this->getAuthenticationKey()];
         $url     = $this->getBaseUri() . $request->getResourceName();
-        if ($request->getLive()) {
-            $url .= '/live';
-        }
         if ($request->getIdentifier()) {
             $url .= '/' . $request->getIdentifier();
+        }
+        if ($request->getLive()) {
+            $url .= '/live';
         }
         if ($parameters) {
             $url .= '?' . http_build_query($parameters);
