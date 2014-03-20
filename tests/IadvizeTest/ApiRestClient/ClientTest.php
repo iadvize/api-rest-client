@@ -87,7 +87,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test= get resource
+     * Test: get resource
      */
     public function testGetResource()
     {
@@ -102,6 +102,44 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $browser->shouldReceive('get')->andReturn($response);
         $this->client->setBrowser($browser);
         $this->client->getResource('group', 1);
+
+        $this->assertTrue($this->client->getLastResponse()->getMeta()->getStatus() == 'success');
+    }
+
+    /**
+     * Test: get live resources
+     */
+    public function testGetLiveResources()
+    {
+        // Mock response
+        $response = m::mock('Response');
+        $response->shouldReceive('getContent')->times(1)->andReturn(
+            '{"meta":{"status":"success","filters":["name"]},"data":[{"id":1,"name":"Test","_link":"/group/1"}],"pagination":{"page":1,"pages":1,"limit":20,"count":1}}'
+        );
+
+        // Mock browser
+        $browser = m::mock('Browser');
+        $browser->shouldReceive('get')->andReturn($response);
+        $this->client->setBrowser($browser);
+        $this->client->getLiveResources('group', true, ['name' => 'Test']);
+    }
+
+    /**
+     * Test: get live resource
+     */
+    public function testGetLiveResource()
+    {
+        // Mock response
+        $response = m::mock('Response');
+        $response->shouldReceive('getContent')->times(1)->andReturn(
+            '{"meta":{"status":"success"},"data":[{"id":1,"name":"Test","_link":"/group/1"}]}'
+        );
+
+        // Mock browser
+        $browser = m::mock('Browser');
+        $browser->shouldReceive('get')->andReturn($response);
+        $this->client->setBrowser($browser);
+        $this->client->getLiveResource('group', 1);
 
         $this->assertTrue($this->client->getLastResponse()->getMeta()->getStatus() == 'success');
     }

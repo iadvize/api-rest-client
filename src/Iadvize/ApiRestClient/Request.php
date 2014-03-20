@@ -27,6 +27,9 @@ class Request
     /** @var string Resource name */
     protected $resourceName = '';
 
+    /** @var bool Live mode */
+    protected $live = false;
+
     /** @var array Filters list */
     protected $filters = [];
 
@@ -152,6 +155,32 @@ class Request
     public function getFullResults()
     {
         return $this->displayFullResults;
+    }
+
+    /**
+     * Enable live mode
+     */
+    public function enableLive()
+    {
+        $this->live = true;
+    }
+
+    /**
+     * Disable live mode
+     */
+    public function disableLive()
+    {
+        $this->live = false;
+    }
+
+    /**
+     * Get live
+     *
+     * @return bool
+     */
+    public function getLive()
+    {
+        return $this->live;
     }
 
     /**

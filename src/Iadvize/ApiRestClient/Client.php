@@ -151,14 +151,18 @@ class Client
      *
      * @param string $name Name
      * @param int $identifier Identifier
+     * @param bool $live Use live mode
      *
      * @return Response\Data
      */
-    public function getResource($name, $identifier)
+    public function getResource($name, $identifier, $live = false)
     {
         $this->lastRequest = new Request;
         $this->lastRequest->setMode(Request::MODE_READ);
         $this->lastRequest->setResourceName($name);
+        if ($live) {
+            $this->lastRequest->enableLive();
+        }
         $this->lastRequest->setIdentifier($identifier);
 
         $response = $this->proceed();
@@ -173,14 +177,19 @@ class Client
      * @param bool $full Display full data
      * @param array $filters Use filter (E.g. ['website_id' => 123]
      * @param array $fields Fields selected to display
+     * @param bool $live Use live mode
      *
      * @return Response\Data
      */
-    public function getResources($name, $full = false, array $filters = [], array $fields = [])
+    public function getResources(
+        $name, $full = false, array $filters = [], array $fields = [], $live = false)
     {
         $this->lastRequest = new Request;
         $this->lastRequest->setMode(Request::MODE_READ);
         $this->lastRequest->setResourceName($name);
+        if ($live) {
+            $this->lastRequest->enableLive();
+        }
         if ($full) {
             $this->lastRequest->enableFullResults();
         }
@@ -190,6 +199,34 @@ class Client
         $response = $this->proceed();
 
         return $response->getData()->getData();
+    }
+
+    /**
+     * Get live resource
+     *
+     * @param string $name Name
+     * @param int $identifier Identifier
+     *
+     * @return Response\Data
+     */
+    public function getLiveResource($name, $identifier)
+    {
+        return $this->getResource($name, $identifier, true);
+    }
+
+    /**
+     * Get live resources
+     *
+     * @param string $name Name
+     * @param bool $full Display full data
+     * @param array $filters Use filter (E.g. ['website_id' => 123]
+     * @param array $fields Fields selected to display
+     *
+     * @return Response\Data
+     */
+    public function getLiveResources($name, $full = false, array $filters = [], array $fields = [])
+    {
+        return $this->getResources($name, $full, $filters, $fields, true);
     }
 
     /**
@@ -286,6 +323,9 @@ class Client
         $browser = $this->getBrowser();
         $headers = ['X-API-Key' => $this->getAuthenticationKey()];
         $url     = $this->getBaseUri() . $request->getResourceName();
+        if ($request->getLive()) {
+            $url .= '/live';
+        }
         if ($request->getIdentifier()) {
             $url .= '/' . $request->getIdentifier();
         }
