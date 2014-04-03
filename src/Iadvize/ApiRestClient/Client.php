@@ -3,6 +3,7 @@
 namespace Iadvize\ApiRestClient;
 
 use Buzz\Browser;
+use Buzz\Client\Curl;
 
 /**
  * Client
@@ -42,7 +43,8 @@ class Client
     {
         $this->setAuthenticationKey($authenticationKey);
         if (null == $browser) {
-            $this->setBrowser(new Browser());
+            $client = new Curl();
+            $this->setBrowser(new Browser($client));
         }
     }
 
