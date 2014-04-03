@@ -35,6 +35,7 @@ class Client
 
     /**
      * Constructor
+     * Set default timeout to 24h
      *
      * @param string $authenticationKey Authentication API Key
      * @param null|Browser $browser
@@ -44,6 +45,7 @@ class Client
         $this->setAuthenticationKey($authenticationKey);
         if (null == $browser) {
             $client = new Curl();
+            $client->setTimeout(60 * 60 * 24);
             $this->setBrowser(new Browser($client));
         }
     }
