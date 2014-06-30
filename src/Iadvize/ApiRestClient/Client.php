@@ -173,23 +173,39 @@ class Client
     /**
      * Get resources
      *
-     * @param string $name Name
-     * @param bool $full Display full data
-     * @param array $filters Use filter (E.g. ['website_id' => 123]
-     * @param array $fields Fields selected to display
+     * @param string     $name Name
+     * @param bool       $full Display full data
+     * @param array      $filters Use filter (E.g. ['website_id' => 123]
+     * @param array      $fields Fields selected to display
+     * @param int | null $page The page to request
+     * @param int | null $limit The pagination limit
      *
      * @return Response\Data
      */
-    public function getResources($name, $full = false, array $filters = [], array $fields = [])
-    {
+    public function getResources(
+        $name,
+        $full = false,
+        array $filters = [],
+        array $fields = [],
+        $page = null,
+        $limit = null
+    ) {
         $this->lastRequest = new Request;
         $this->lastRequest->setMode(Request::MODE_READ);
         $this->lastRequest->setResourceName($name);
+
         if ($full) {
             $this->lastRequest->enableFullResults();
         }
         $this->lastRequest->setFilters($filters);
         $this->lastRequest->setFields($fields);
+
+        if (!is_null($page)) {
+            $this->lastRequest->setCurrentPage($page);
+        }
+        if (!is_null($limit)) {
+            $this->lastRequest->setPaginationLimit($limit);
+        }
 
         $response = $this->proceed();
 
