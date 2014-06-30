@@ -75,8 +75,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         // Mock response
         $response = m::mock('Response');
-        $response->shouldReceive('getContent')->times(1)->andReturn(
-            '{"meta":{"status":"success","filters":["name"]},"data":[{"id":1,"name":"Test","_link":"/group/1"}],"pagination":{"page":1,"pages":1,"limit":20,"count":1}}'
+        $response->shouldReceive('getContent')->times(2)->andReturn(
+            '{"meta":{"status":"success","filters":["name"]},"data":[{"id":1,"name":"Test","_link":"/group/1"}],"pagination":{"page":1,"pages":1,"limit":20,"count":1}}',
+            '{"meta":{"status":"success","filters":["name"]},"data":[{"id":1,"name":"Test","_link":"/group/1"}],"pagination":{"page":1,"pages":2,"limit":100,"count":3}}'
         );
 
         // Mock browser
@@ -84,6 +85,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $browser->shouldReceive('get')->andReturn($response);
         $this->client->setBrowser($browser);
         $this->client->getResources('group', true, ['name' => 'Test']);
+
+        $this->client->getResources('group', true, ['name' => 'Test'], [], 2, 100);
     }
 
     /**
