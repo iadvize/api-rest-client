@@ -37,7 +37,7 @@ class Client
      * Constructor
      * Set default timeout to 24h
      *
-     * @param string $authenticationKey Authentication API Key
+     * @param string       $authenticationKey Authentication API Key
      * @param null|Browser $browser
      */
     public function __construct($authenticationKey = '', $browser = null)
@@ -153,8 +153,8 @@ class Client
     /**
      * Get resource
      *
-     * @param string $name Name
-     * @param int $identifier Identifier
+     * @param string $name       Name
+     * @param int    $identifier Identifier
      *
      * @return Response\Data
      */
@@ -173,12 +173,12 @@ class Client
     /**
      * Get resources
      *
-     * @param string     $name Name
-     * @param bool       $full Display full data
+     * @param string     $name    Name
+     * @param bool       $full    Display full data
      * @param array      $filters Use filter (E.g. ['website_id' => 123]
-     * @param array      $fields Fields selected to display
-     * @param int | null $page The page to request
-     * @param int | null $limit The pagination limit
+     * @param array      $fields  Fields selected to display
+     * @param int | null $page    The page to request
+     * @param int | null $limit   The pagination limit
      *
      * @return Response\Data
      */
@@ -215,8 +215,8 @@ class Client
     /**
      * Create resource
      *
-     * @param string $name Name
-     * @param array $fields Fields
+     * @param string $name   Name
+     * @param array  $fields Fields
      *
      * @return Response\Data
      */
@@ -235,9 +235,9 @@ class Client
     /**
      * Update resource
      *
-     * @param string $name Name
-     * @param int $identifier Identifier
-     * @param array $fields Fields
+     * @param string $name       Name
+     * @param int    $identifier Identifier
+     * @param array  $fields     Fields
      *
      * @return Response\Data
      */
@@ -257,8 +257,8 @@ class Client
     /**
      * Delete resource
      *
-     * @param string $name Name
-     * @param int $identifier Identifier
+     * @param string $name       Name
+     * @param int    $identifier Identifier
      *
      * @return bool
      */
@@ -358,10 +358,19 @@ class Client
         // Create pagination
         $pagination = new Response\Pagination;
         if (!empty($content['pagination'])) {
-            $pagination->setPage($content['pagination']['page']);
-            $pagination->setPages($content['pagination']['pages']);
-            $pagination->setLimit($content['pagination']['limit']);
-            $pagination->setCount($content['pagination']['count']);
+
+            if (!empty($content['pagination']['page'])) {
+                $pagination->setPage($content['pagination']['page']);
+            }
+            if (!empty($content['pagination']['pages'])) {
+                $pagination->setPages($content['pagination']['pages']);
+            }
+            if (!empty($content['pagination']['limit'])) {
+                $pagination->setLimit($content['pagination']['limit']);
+            }
+            if (!empty($content['pagination']['count'])) {
+                $pagination->setCount($content['pagination']['count']);
+            }
         }
 
         // Create response
