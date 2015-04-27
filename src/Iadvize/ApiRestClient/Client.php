@@ -4,6 +4,7 @@ namespace Iadvize\ApiRestClient;
 
 use Buzz\Browser;
 use Buzz\Client\Curl;
+use Zend\Stdlib\ArrayUtils;
 
 /**
  * Client
@@ -210,6 +211,42 @@ class Client
         $response = $this->proceed();
 
         return $response->getData()->getData();
+    }
+
+    /**
+     * Get all resources
+     *
+     * @param string     $name    Name
+     * @param bool       $full    Display full data
+     * @param array      $filters Use filter (E.g. ['website_id' => 123]
+     * @param array      $fields  Fields selected to display
+     *
+     * @return array
+     */
+    public function getAllResources($name, $full = false, array $filters = [], array $fields = []) {
+        $this->lastRequest = new Request;
+        $this->lastRequest->setMode(Request::MODE_READ);
+        $this->lastRequest->setResourceName($name);
+
+        if ($full) {
+            $this->lastRequest->enableFullResults();
+        }
+        $this->lastRequest->setFilters($filters);
+        $this->lastRequest->setFields($fields);
+
+        $data = [];
+
+        $page = 1;
+        do {
+            $this->lastRequest->setCurrentPage($page);
+            $response = $this->proceed();
+
+            $data = ArrayUtils::merge($data, $response->getData()->getData());
+
+            $page++;
+        } while ($response->getPagination()->getPage() != $response->getPagination()->getPages());
+
+        return $data;
     }
 
     /**
