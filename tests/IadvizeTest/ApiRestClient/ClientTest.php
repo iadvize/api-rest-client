@@ -90,6 +90,25 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test: get all resources
+     */
+    public function testGetAllResources()
+    {
+        // Mock response
+        $response = m::mock('Response');
+        $response->shouldReceive('getContent')->times(2)->andReturn(
+            '{"meta":{"status":"success","filters":["name"]},"data":[{"id":1,"name":"Test","_link":"/group/1"}],"pagination":{"page":1,"pages":2,"limit":1,"count":1}}',
+            '{"meta":{"status":"success","filters":["name"]},"data":[{"id":1,"name":"Test","_link":"/group/1"}],"pagination":{"page":2,"pages":2,"limit":1,"count":1}}'
+        );
+
+        // Mock browser
+        $browser = m::mock('Browser');
+        $browser->shouldReceive('get')->andReturn($response);
+        $this->client->setBrowser($browser);
+        $this->client->getAllResources('group', true, ['name' => 'Test']);
+    }
+
+    /**
      * Test= get resource
      */
     public function testGetResource()
