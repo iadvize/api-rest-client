@@ -3,12 +3,6 @@ iAdvize Api Client [![Build Status](https://travis-ci.org/iadvize/api-rest-clien
 
 Library to access iAdvize api
 
-## Install
-
-```php
-composer require iadvize/apirestclient
-```
-
 ## Examples
 
 ### List websites
@@ -37,12 +31,22 @@ if ($website) {
 
 ```
 
+## Install
+
+```php
+composer require iadvize/apirestclient
+```
+
 ## Documentation
+
+You can access the documentation here : [documentation](https://developers.iadvize.com/documentation#resources)
 
 ### Launch tests
 
+```php
 cp ./phpunix.xml.dist ./phpunix.xml
 ./vendor/bin/phpunit -c phpunit.xml
+```
 
 ## Contribute
 
