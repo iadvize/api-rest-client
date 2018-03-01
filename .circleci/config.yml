@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/api-rest-client
+    docker:
+      - image: circleci/php:5
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: composer install
+      - run:
+          name: Run tests
+          command: |
+            ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+            wget https://scrutinizer-ci.com/ocular.phar
+            php ocular.phar code-coverage:upload --format=php-clover coverage.clover
