@@ -14,7 +14,7 @@ use Zend\Stdlib\ArrayUtils;
 class Client
 {
     /** @const string Default base URI */
-    const DEFAULT_BASE_URI = 'https://www.iadvize.com/api/2/';
+    const DEFAULT_BASE_URI = 'https://sd.iadvize.com/api/2/';
 
     /** @const string High  */
     const HA_BASE_URI = 'https://ha.iadvize.com/api/2/';
